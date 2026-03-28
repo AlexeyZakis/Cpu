@@ -3,12 +3,12 @@ import cpu_defs::*;
 module core_singlecycle (
     input wire clk,
     input wire rst,
-    output wire [ADDR_W-1:0] imem_addr,
     input wire [DATA_W-1:0] imem_data,
+    output wire [ADDR_W-1:0] imem_addr,
+    input wire [DATA_W-1:0] dmem_rdata,
     output wire [ADDR_W-1:0] dmem_addr,
     output wire [DATA_W-1:0] dmem_wdata,
-    output wire dmem_we,
-    input wire [DATA_W-1:0] dmem_rdata
+    output wire dmem_we
 );
     wire [ADDR_W-1:0] pc;
     wire [ADDR_W-1:0] next_pc;

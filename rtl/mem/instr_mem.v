@@ -1,17 +1,15 @@
 import cpu_defs::*;
 
-import cpu_defs::*;
-
 module instr_mem (
-    input  wire [ADDR_W-1:0]  addr,
+    input wire [ADDR_W-1:0] addr,
     output wire [INSTR_W-1:0] com
 );
     reg [INSTR_W-1:0] mem [0:IMEM_DEPTH-1];
 
     function [INSTR_W-1:0] enc_r;
-        input [ISA_REG_W-1:0]   rs;
-        input [ISA_REG_W-1:0]   rt;
-        input [ISA_REG_W-1:0]   rd;
+        input [ISA_REG_W-1:0] rs;
+        input [ISA_REG_W-1:0] rt;
+        input [ISA_REG_W-1:0] rd;
         input [ISA_FUNCT_W-1:0] funct;
         begin
             enc_r = {OPC_RTYPE, rs, rt, rd, {ISA_SHAMT_W{1'b0}}, funct};
