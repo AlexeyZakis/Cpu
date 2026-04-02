@@ -73,7 +73,15 @@ module instr_mem (
         // 12: addi r2, r0, 7       ; r2 = 14D (333)
         // 13: mul  r5, r4, r7      ; r5 = 228D5 (141525)
         // 14: add  r6, r0, r5      ; r6 = 228D5 (141525)
-        // 15: j    15              ; (while True)
+        // 15: add  r7, r6, r2      ; r7 = 22A22 (141858)
+        // 16: lw   r2, 0(r0)       ; r2 = C (12)
+        // 17: add  r1, r2, r2      ; r1 = 18 (24)
+        // 18: beq  r0, r0, +1      ; skip instruction 19
+        // 19: addi r5, r0, 99      ; must be skipped
+        // 20: addi r1, r0, 5       ; r1 = 5 (5)
+        // 21: addi r1, r0, 7       ; r1 = 7 (7)
+        // 22: sw   r1, 8(r0)       ; m[2] = 7 (7)
+        // 23: j    23              ; (while True)
         mem[0] = enc_i(OPC_ADDI, 5'd0, 5'd1, 16'd5);
         mem[1] = enc_i(OPC_ADDI, 5'd0, 5'd2, 16'd7);
         mem[2] = enc_r(5'd1, 5'd2, 5'd3, FUNCT_ADD);
@@ -89,7 +97,16 @@ module instr_mem (
         mem[12] = enc_i(OPC_ADDI, 5'd0, 5'd2, 16'd333);
         mem[13] = enc_r(5'd2, 5'd1, 5'd5, FUNCT_MUL);
         mem[14] = enc_r(5'd0, 5'd5, 5'd6, FUNCT_ADD);
-        mem[15] = enc_j(OPC_J, 26'd15);
+        mem[15] = enc_r(5'd6, 5'd2, 5'd7, FUNCT_ADD);
+        mem[16] = enc_i(OPC_LW, 5'd0, 5'd2, 16'd0);
+        mem[17] = enc_r(5'd2, 5'd2, 5'd1, FUNCT_ADD);
+        mem[18] = enc_i(OPC_BEQ, 5'd0, 5'd0, 16'd1);
+        mem[19] = enc_i(OPC_ADDI, 5'd0, 5'd5, 16'd99);
+        mem[20] = enc_i(OPC_ADDI, 5'd0, 5'd1, 16'd5);
+        mem[21] = enc_i(OPC_ADDI, 5'd0, 5'd1, 16'd7);
+        mem[22] = enc_i(OPC_SW, 5'd0, 5'd1, 16'd8);
+        
+        mem[23] = enc_j(OPC_J, 26'd23);
     end
 
     assign rdata = mem[addr[IMEM_ADDR_W + BYTE_OFFSET_W - 1 : BYTE_OFFSET_W]];
