@@ -1,6 +1,6 @@
 import cpu_defs::*;
 
-module mul_unit_iterative (
+module mul_shift_and_add (
     input wire clk,
     input wire rst,
     input wire start,

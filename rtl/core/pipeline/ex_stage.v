@@ -101,7 +101,7 @@ module ex_stage (
         .zero(alu_zero)
     );
 
-    mul_unit_iterative u_mul (
+    mul_shift_and_add u_mul (
         .clk(clk),
         .rst(rst),
         .start(mul_start),
